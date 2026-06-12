@@ -363,14 +363,19 @@ fig2 <- ggplot(price_idx, aes(x = year, y = price_idx, colour = scenario)) +
 save_fig(fig2, "figures/fig2_price_index.png")
 
 # Fig 3: Inflation
-fig3 <- ggplot(results_all, aes(x = year, y = pi_sector * 100, colour = scenario)) +
+# Drop year 2025: pi_sector[2025] = real Destatis anchor (3.1%), not model output.
+# Showing it creates a false spike/dip at 2025->2026 transition. Plot from 2026.
+inflation_plot_data <- results_all[results_all$year >= 2026, ]
+
+fig3 <- ggplot(inflation_plot_data, aes(x = year, y = pi_sector * 100, colour = scenario)) +
   geom_hline(yintercept = 2, linetype = "dashed", colour = "grey50") +
-  annotate("text", x = 2026, y = 2.15, label = "ECB 2% target",
+  annotate("text", x = 2027, y = 2.15, label = "ECB 2% target",
            size = 3, colour = "grey40", hjust = 0) +
   geom_line(linewidth = 0.8) +
   scale_colour_manual(values = scenario_colours, name = "Scenario") +
-  scale_x_continuous(breaks = year_breaks) +
+  scale_x_continuous(breaks = 2026:2034) +
   labs(title = "Sectoral Inflation Rate - Heat Pump Installation (%)",
+       subtitle = "Model forecast 2026-2034 (2025 = real data anchor, Destatis bpr110)",
        x = "Year", y = "Inflation (%)") + theme_paper
 save_fig(fig3, "figures/fig3_inflation.png")
 
@@ -421,3 +426,133 @@ fig7 <- ggplot(results_all, aes(x = Q / 1000, y = pi_sector * 100, colour = scen
 save_fig(fig7, "figures/fig7_phase_diagram.png", h = 6)
 
 cat("Figures saved to figures/\n")
+
+# =============================================================================
+# ADDITIONAL EXPLORATORY FIGURES (fig8 - fig15)
+# =============================================================================
+
+# Fig 8: Semi-skilled wage trajectory
+# Shows how GJG wage floor pulls up private sector helper wages over time
+fig8 <- ggplot(results_all, aes(x = year, y = w_semi, colour = scenario)) +
+  geom_line(linewidth = 0.8) +
+  geom_hline(yintercept = w_min_2025, linetype = "dotted", colour = "grey50") +
+  annotate("text", x = 2026, y = w_min_2025 + 0.2,
+           label = "2025 minimum wage (EUR12.82)", size = 3, colour = "grey40", hjust = 0) +
+  scale_colour_manual(values = scenario_colours, name = "Scenario") +
+  scale_x_continuous(breaks = year_breaks) +
+  labs(title = "Semi-Skilled Helper Wage (Private Sector)",
+       subtitle = "GJG pulls up wages even for workers NOT in the programme",
+       x = "Year", y = "Hourly Wage (EUR/hr)") + theme_paper
+save_fig(fig8, "figures/fig8_semi_wage.png")
+
+# Fig 9: Wage gap — SHK vs semi-skilled vs GJG
+# Shows whether GJG narrows or widens the skilled/unskilled wage premium
+wage_gap_data <- results_all %>%
+  filter(scenario %in% c("Baseline", "Scenario B", "Scenario C")) %>%
+  mutate(shk_semi_gap = w_SHK - w_semi,
+         shk_gjg_gap  = ifelse(w_GJG > 0, w_SHK - w_GJG, NA))
+
+fig9 <- ggplot(wage_gap_data, aes(x = year)) +
+  geom_line(aes(y = shk_semi_gap, colour = scenario), linewidth = 0.8) +
+  geom_line(aes(y = shk_gjg_gap,  colour = scenario), linewidth = 0.8, linetype = "dashed") +
+  scale_colour_manual(values = scenario_colours[c("Baseline","Scenario B","Scenario C")],
+                      name = "Scenario") +
+  scale_x_continuous(breaks = year_breaks) +
+  labs(title = "Wage Premium: SHK over Semi-Skilled (solid) and over GJG (dashed)",
+       subtitle = "Wider gap = more incentive to obtain SHK certification",
+       x = "Year", y = "Wage Gap (EUR/hr)") + theme_paper
+save_fig(fig9, "figures/fig9_wage_gap.png")
+
+# Fig 10: Installation supply gap (demand - actual output)
+# How many installs are being LOST each year due to labour shortage
+results_all$install_gap <- results_all$Q_demand - results_all$Q
+
+fig10 <- ggplot(results_all, aes(x = year, y = install_gap / 1000, colour = scenario)) +
+  geom_line(linewidth = 0.8) +
+  geom_hline(yintercept = 0, linetype = "dotted", colour = "grey50") +
+  scale_colour_manual(values = scenario_colours, name = "Scenario") +
+  scale_x_continuous(breaks = year_breaks) +
+  labs(title = "Unmet Installation Demand (Supply Gap)",
+       subtitle = "Installations lost per year due to SHK labour shortage",
+       x = "Year", y = "Unmet Demand (000s/yr)") + theme_paper
+save_fig(fig10, "figures/fig10_install_gap.png")
+
+# Fig 11: Lending rate trajectory
+# Shows how sectoral inflation feeds into higher borrowing costs for firms
+fig11 <- ggplot(results_all, aes(x = year, y = r_loan * 100, colour = scenario)) +
+  geom_line(linewidth = 0.8) +
+  geom_hline(yintercept = r_loan_neutral * 100, linetype = "dotted", colour = "grey50") +
+  annotate("text", x = 2026, y = r_loan_neutral * 100 + 0.05,
+           label = "Neutral rate (3.5%)", size = 3, colour = "grey40", hjust = 0) +
+  scale_colour_manual(values = scenario_colours, name = "Scenario") +
+  scale_x_continuous(breaks = year_breaks) +
+  labs(title = "Lending Rate to Construction Firms (%)",
+       subtitle = "Higher sectoral inflation -> higher risk premium -> tighter credit",
+       x = "Year", y = "Lending Rate (%)") + theme_paper
+save_fig(fig11, "figures/fig11_lending_rate.png")
+
+# Fig 12: Wage share of installation cost
+# Labour cost as % of total installation price — rising = wage-push inflation
+fig12 <- ggplot(results_all, aes(x = year, y = wage_share * 100, colour = scenario)) +
+  geom_line(linewidth = 0.8) +
+  scale_colour_manual(values = scenario_colours, name = "Scenario") +
+  scale_x_continuous(breaks = year_breaks) +
+  labs(title = "Labour Cost Share of Total Installation Price (%)",
+       subtitle = "Rising share indicates wage-push inflation mechanism active",
+       x = "Year", y = "Wage Share (%)") + theme_paper
+save_fig(fig12, "figures/fig12_wage_share.png")
+
+# Fig 13: GJG programme size over time
+# How many workers in GJG grows as wage premium attracts more participants
+fig13 <- ggplot(results_all %>% filter(scenario != "Baseline"),
+                aes(x = year, y = N_GJG / 1000, colour = scenario)) +
+  geom_line(linewidth = 0.8) +
+  scale_colour_manual(values = scenario_colours[c("Scenario A","Scenario B","Scenario C")],
+                      name = "Scenario") +
+  scale_x_continuous(breaks = year_breaks) +
+  labs(title = "GJG Programme Size (thousands of workers)",
+       subtitle = "Programme grows as wage premium attracts semi-skilled workers",
+       x = "Year", y = "GJG Workers (000s)") + theme_paper
+save_fig(fig13, "figures/fig13_gjg_size.png")
+
+# Fig 14: Cumulative installation shortfall vs 500k mandate
+# Total homes NOT converted over 10 years — policy failure metric
+results_all$cumul_shortfall <- ave(
+  500 - results_all$Q / 1000,
+  results_all$scenario,
+  FUN = cumsum
+)
+
+fig14 <- ggplot(results_all, aes(x = year, y = cumul_shortfall, colour = scenario)) +
+  geom_line(linewidth = 0.8) +
+  geom_hline(yintercept = 0, linetype = "dotted", colour = "grey50") +
+  scale_colour_manual(values = scenario_colours, name = "Scenario") +
+  scale_x_continuous(breaks = year_breaks) +
+  labs(title = "Cumulative Installation Shortfall vs 500k/yr Target",
+       subtitle = "Total missed installations since 2025 (000s of homes)",
+       x = "Year", y = "Cumulative Shortfall (000s of homes)") + theme_paper
+save_fig(fig14, "figures/fig14_cumul_shortfall.png")
+
+# Fig 15: Four-panel summary — key variables side by side
+results_panel <- results_all %>%
+  select(year, scenario, w_SHK, Q, pi_sector, L_gap) %>%
+  mutate(Q_k = Q / 1000, pi_pct = pi_sector * 100, L_gap_k = L_gap / 1000) %>%
+  pivot_longer(cols = c(w_SHK, Q_k, pi_pct, L_gap_k),
+               names_to = "variable", values_to = "value") %>%
+  mutate(variable = recode(variable,
+    w_SHK   = "SHK Wage (EUR/hr)",
+    Q_k     = "Installations (000s/yr)",
+    pi_pct  = "Inflation (%)",
+    L_gap_k = "Labour Gap (000s)"
+  ))
+
+fig15 <- ggplot(results_panel, aes(x = year, y = value, colour = scenario)) +
+  geom_line(linewidth = 0.7) +
+  facet_wrap(~ variable, scales = "free_y", ncol = 2) +
+  scale_colour_manual(values = scenario_colours, name = "Scenario") +
+  scale_x_continuous(breaks = c(2025, 2028, 2031, 2034)) +
+  labs(title = "Four-Panel Summary: Key Model Variables (2025-2034)",
+       x = "Year", y = NULL) + theme_paper
+save_fig(fig15, "figures/fig15_summary_panel.png", h = 7)
+
+cat("Additional figures (fig8-fig15) saved to figures/\n")
