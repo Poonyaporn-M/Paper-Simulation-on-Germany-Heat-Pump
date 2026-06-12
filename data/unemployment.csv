@@ -1,0 +1,11 @@
+year,unemployment_rate_pct,unemployment_rate_construction_pct,labour_force_total_millions,unemployed_total_millions,note,source_url
+2015,6.4,7.2,43.0,2.75,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2016,6.1,6.8,43.3,2.64,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2017,5.7,6.3,43.6,2.48,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2018,5.2,5.8,44.0,2.29,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2019,5.0,5.5,44.2,2.21,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2020,5.9,6.4,44.0,2.60,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2021,5.7,6.1,44.1,2.51,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2022,5.3,5.9,44.3,2.35,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2023,5.7,6.3,44.4,2.53,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/
+2024,6.0,6.7,44.4,2.66,Destatis Mikrozensus ILO concept; construction rate estimated from BA sector statistics,https://genesis.destatis.de/datenbank/online/

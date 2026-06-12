@@ -1,0 +1,8 @@
+year,sector,avg_monthly_gross_eur,avg_annual_gross_eur,avg_hourly_gross_eur,hours_per_week,source_url
+2024,Construction,3970,52134,NA,40.0,https://www.destatis.de/EN/Themes/Labour/Earnings/Branch-Occupation/Tables/quaterly-earnings.html
+2024,Manufacturing,4732,66217,NA,38.3,https://www.destatis.de/EN/Themes/Labour/Earnings/Branch-Occupation/Tables/quaterly-earnings.html
+2024,All sectors (avg),4634,NA,27.28,NA,https://www.destatis.de/EN/Themes/Labour/Earnings/Branch-Occupation/Tables/quaterly-earnings.html
+2024,Information and Communication,5955,83565,NA,39.2,https://www.destatis.de/EN/Themes/Labour/Earnings/Branch-Occupation/Tables/quaterly-earnings.html
+2024,Financial and Insurance,6182,90652,NA,38.6,https://www.destatis.de/EN/Themes/Labour/Earnings/Branch-Occupation/Tables/quaterly-earnings.html
+2024,Education,5274,NA,NA,39.5,https://www.destatis.de/EN/Themes/Labour/Earnings/Branch-Occupation/Tables/quaterly-earnings.html
+2024,Agriculture Forestry Fishing,NA,40413,NA,NA,https://www.destatis.de/EN/Themes/Labour/Earnings/Branch-Occupation/Tables/yearly-gross-earnings.html

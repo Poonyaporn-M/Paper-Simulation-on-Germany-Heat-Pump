@@ -1,0 +1,11 @@
+year,electricity_eur_kwh,gas_eur_kwh,heating_oil_eur_l,hp_running_cost_index,note,source_url
+2015,0.286,0.064,0.55,100,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2016,0.288,0.060,0.48,101,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2017,0.292,0.061,0.54,103,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2018,0.297,0.064,0.63,105,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2019,0.310,0.065,0.66,110,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2020,0.314,0.058,0.49,112,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2021,0.320,0.068,0.58,114,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2022,0.381,0.165,1.25,136,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2023,0.317,0.105,0.95,113,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
+2024,0.311,0.099,0.88,111,BDEW Energiemarktdaten; 2022 spike = energy crisis; hp_running_cost_index calibrated (elec/gas price ratio; inverted),https://www.bdew.de/service/daten-und-grafiken/
